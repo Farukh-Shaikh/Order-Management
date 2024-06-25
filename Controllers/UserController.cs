@@ -46,13 +46,6 @@ namespace OrderManagement.Controllers
             }
         }
 
-        //create api to get user by id
-        [HttpGet("GetUserById")]
-        public IActionResult GetUserById(int id)
-        {
-            return Ok(_userService.GetUser(id));
-        }
-
         //create api to check if user is above forty age
         [HttpGet("IsUserAboveForty")]
         public IActionResult IsAboveForty(DateTime? dateOfBirth)
