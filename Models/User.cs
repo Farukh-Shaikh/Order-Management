@@ -20,11 +20,5 @@ namespace OrderManagement.Models
         public DateTime? DateOfBirth { get; set; }
 
         public bool HasConsented { get; set; } // Added consent field
-
-        //Added comment to test pre-hook 
-        //Added another comment to test pre-hook 
-        //Added more comment to test pre-hook 
-        //Added more comment to test pre-hook 
-        //Added more comment to test pre-hook 
     }
 }
