@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# Function to send git diff and get validation result
+check_code_conventions() {
+    # Get the git diff
+    git_diff=$(git diff --cached --diff-filter=ACDMR)
+
+    # Escape special characters in git_diff for JSON
+    escaped_git_diff=$(echo "$git_diff" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed "s/'/\\'/g" | sed 's/`/\\`/g' | sed 's/\//\\\//g' | awk '{printf "%s\\n", $0}')
+
+    # Prepare the JSON payload
+    payload="{ \"git_diff\": \"$escaped_git_diff\" }"
+
+    # Send the payload to the API endpoint and capture the response
+    response=$(curl -s -X POST -H "Content-Type: application/json" -d "$payload" http://127.0.0.1:5000/api/CheckCodeConventions)
+
+    # Display Validation
+    validation=$(echo "$response" | jq -r '.Validation')
+    # echo "Validation: $validation"
+
+    # Display Explanations
+    echo
+    echo "Explanations:"
+
+    # Iterate through each Explanation object
+    echo "$response" | jq -c '.Explanation[]' | while read -r explanation; do
+        rule=$(echo "$explanation" | jq -r '.Rule')
+        explanation_text=$(echo "$explanation" | jq -r '.Explanation')
+        recommendation=$(echo "$explanation" | jq -r '.Recommendation')
+        valid=$(echo "$explanation" | jq -r '.Valid')
+
+        echo "- Rule: $rule"
+        echo "  Explanation: $explanation_text"
+        echo "  Recommendation: $recommendation"
+        echo "  Valid: $valid"
+    done
+
+    # Check Validation status
+    echo
+    if [[ "$validation" == "true" ]]; then
+        echo "Validation is true. Proceeding with commit."
+        exit 0  # Exit successfully to allow the commit
+    else
+        echo "Validation is false. Commit aborted."
+        exit 1  # Exit with failure to stop the commit
+    fi
+}
+
+# Function to check if jq is installed
+check_jq_installed() {
+    if command -v jq &> /dev/null; then
+        echo "jq is already installed."
+        return 0  # jq is installed
+    else
+        echo "jq is not installed."
+        return 1  # jq is not installed
+    fi
+}
+
+install_jq() {
+# Check if the system is Unix-like (Linux)
+if [ "$(uname)" == "Linux" ]; then
+    if ! check_jq_installed; then
+        echo "Attempting to install jq on Unix-like system..."
+
+        # Check if /usr/bin/ directory exists, create it if not
+        if [ ! -d "/usr/bin/" ]; then
+            echo "/usr/bin/ directory does not exist. Creating..."
+            sudo mkdir -p /usr/bin/
+        fi
+
+        # Download jq executable from GitHub releases
+        curl -L -o /usr/bin/jq https://github.com/stedolan/jq/releases/latest/download/jq-linux64
+
+        # Set executable permissions
+        sudo chmod +x /usr/bin/jq
+
+        # Check if installation was successful
+        if ! check_jq_installed; then
+            echo "Failed to install jq. Please install jq manually or check permissions."
+            exit 1
+        else
+            echo "jq installation successful."
+        fi
+    fi
+elif [ "$(uname | grep -iE 'mingw|msys')" ]; then
+    # Check if jq is installed on Windows
+    if ! check_jq_installed; then
+        echo "Install jq manually on Windows."
+        echo "Run this on GIT BASH (RUN AS ADMINISTRATOR) -> curl -L -o /usr/bin/jq.exe https://github.com/stedolan/jq/releases/latest/download/jq-win64.exe"
+        exit 1
+    fi
+else
+    echo "Unsupported operating system. Please install jq manually for your system."
+    exit 1
+fi
+}
+
+# Call the function to check code conventions
+install_jq
+check_code_conventions
