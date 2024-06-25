@@ -63,6 +63,17 @@ namespace OrderManagement.Services
             }
         }
 
+        public User GetUser(int id)
+        {
+            var user = _context.Users.Find(id);
+            if (user != null && user.HasConsented)
+            {
+                user.Email = _protector.Unprotect(user.Email);
+                return user;
+            }
+            return null;
+        }
+
         public bool IsAboveForty(DateTime? dateOfBirth)
         {
             if (dateOfBirth.HasValue)
