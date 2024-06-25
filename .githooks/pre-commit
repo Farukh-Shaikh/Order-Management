@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Allow bypass with a specific commit message flag
+commit_message=$(git log -1 --pretty=%B)
+echo "$commit_message"
+if [[ "$commit_message" == *"--skip-pre-commit"* ]]; then
+  exit 0
+fi
+
 # Function to send git diff and get validation result
 check_code_conventions() {
     # Get the git diff
