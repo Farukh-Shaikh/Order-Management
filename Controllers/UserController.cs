@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OrderManagement.Repositories;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 using System.Net;
-using OrderManagement.Services;
 using System.Net.NetworkInformation;
+using OrderManagement.Services;
+using OrderManagement.Models;
+using OrderManagement.Repositories;
+
 
 namespace OrderManagement.Controllers
 {
