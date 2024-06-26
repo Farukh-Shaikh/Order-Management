@@ -29,5 +29,21 @@ namespace OrderManagement.Controllers
             return BadRequest(userResult.ErrorMessage);
         }
 
+        [HttpGet("GetUserById")]
+        public IActionResult GetUserById(int id)
+        {
+            var userResult = _userService.GetUserById(id);
+            if (userResult.IsSuccess)
+            {
+                return Ok(userResult.User);
+            }
+            return BadRequest(userResult.ErrorMessage);
+        }
+
+        [HttpPost("GetUserConsent")]
+        public IActionResult GetUserConsent(User user)
+        {
+            return Ok(_userService.GetUserConsent(user));
+        }
     }
 }
