@@ -29,11 +29,5 @@ namespace OrderManagement.Controllers
             return BadRequest(userResult.ErrorMessage);
         }
 
-        [HttpGet("IsUserAboveForty")]
-        public IActionResult IsAboveForty(DateTime? dateOfBirth)
-        {
-            return Ok(_userService.IsAboveForty(dateOfBirth));
-        }
-
     }
 }

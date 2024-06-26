@@ -38,27 +38,5 @@ namespace OrderManagement.Services
             }
         }
 
-
-        public bool IsAboveForty(DateTime? dateOfBirth)
-        {
-            if (dateOfBirth.HasValue)
-            {
-                DateTime now = DateTime.UtcNow;
-                DateTime dob = dateOfBirth.Value;
-                int age = now.Year - dob.Year;
-
-                if (age > 40)
-                    return true;
-
-                else
-                    return false;
-
-            }
-            else
-            {
-                // If date of birth is not provided, consider it as not above 40
-                return false;
-            }
-        }
     }
 }
