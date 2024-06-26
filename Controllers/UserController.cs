@@ -12,21 +12,28 @@ namespace OrderManagement.Controllers
             _userService = userService;
         }
 
-        [HttpGet("GetNames")]
-        public IActionResult GetNames()
+        [HttpGet("IsUserAboveForty")]
+        public IActionResult IsAboveForty(DateTime? dateOfBirth)
         {
-            return Ok();
-        }
-
-        [HttpGet("GetUserById")]
-        public IActionResult GetUserById(int id)
-        {
-            var userResult = _userService.GetUserById(id);
-            if (userResult.IsSuccess)
+            //checking if user is above 40
+            if (dateOfBirth.HasValue)
             {
-                return Ok(userResult.User);
+                DateTime now = DateTime.UtcNow;
+                DateTime dob = dateOfBirth.Value;
+                int age = now.Year - dob.Year;
+
+                if (age > 40)
+                    return Ok();
+
+                else
+                    return BadRequest();
+
             }
-            return BadRequest(userResult.ErrorMessage);
+            else
+            {
+                return Ok();
+            }
+
         }
     }
 }
