@@ -37,5 +37,15 @@ namespace OrderManagement.Services
                 return (false, null, "An error occurred while fetching the user.");
             }
         }
+
+        public bool GetUserConsent(User user)
+        {
+            //returning user consent
+            if (user.HasConsented)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
