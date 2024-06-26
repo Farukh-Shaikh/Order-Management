@@ -1,5 +1,4 @@
 using OrderManagement.Repositories;
-using OrderManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +11,6 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddDbContext<ApplicationDbContext>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<EncryptionService>();
 
 
 
