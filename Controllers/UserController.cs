@@ -46,24 +46,5 @@ namespace OrderManagement.Controllers
             return Ok(_userService.GetUserConsent(user));
         }
 
-        [HttpGet("Calculate")]
-        public IActionResult Calculate()
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    for (int k = 0; k < 10; k++)
-                    {
-                        if (k % 2 == 0)
-                        {
-                            return Ok();
-                        }
-                    }
-                }
-            }
-
-            return BadRequest();
-        }
     }
 }
