@@ -39,6 +39,7 @@ check_code_conventions() {
     echo
     if [[ "$validation" == "true" ]]; then
         echo "Validation is true. Proceeding with commit."
+	curl -s -X GET -H "Content-Type: application/json" http://127.0.0.1:5000/api/checkCompliance
         exit 0  # Exit successfully to allow the commit
     else
         echo "Validation is false. Commit aborted."
