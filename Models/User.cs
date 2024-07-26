@@ -17,8 +17,12 @@ namespace OrderManagement.Models
         public string PasswordHash { get; set; }
 
         [Required]
-        public DateTime? DateOfBirth { get; set; }
+        public string? DateOfBirth { get; set; }
 
         public bool HasConsented { get; set; } // Added consent field
+
+        public DateTime? ConsentDate { get; set; } // Date when consent was given
+        public bool IsMarketingConsentGiven { get; set; } // Additional consent field
+        public DateTime? LastConsentUpdate { get; set; } // Timestamp for last consent update
     }
 }
