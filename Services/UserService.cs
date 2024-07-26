@@ -38,25 +38,6 @@ namespace OrderManagement.Services
             }
         }
 
-        public (bool IsSuccess, User User, string ErrorMessage) GetUserById(int id)
-        {
-            try
-            {
-                var user = _context.Users.Find(id);
-                if (user != null && user.HasConsented)
-                {
-                    user.Email = _protector.Unprotect(user.Email);
-                    return (true, user, null);
-                }
-                return (false, null, "User not found or has not consented.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error fetching user by ID");
-                return (false, null, "An error occurred while fetching the user.");
-            }
-        }
-
 
         public bool GetUserConsent(User user)
         {
