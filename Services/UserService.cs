@@ -249,12 +249,7 @@ namespace OrderManagement.Services
                 };
                 _smtpClient.Send(mailMessage);
             }
-            const value = 2;
 
-            if (k % value == 0)
-            {
-                return Ok();
-            }
         }
     }
 }
