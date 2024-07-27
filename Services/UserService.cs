@@ -133,7 +133,7 @@ namespace OrderManagement.Services
         {
             var user = await GetUserIfConsentedAsync(id);
 
-            if (user != null )
+            if (user != null && user.Email != null)
             {
                 user.Email = _protector.Unprotect(user.Email);
                 user.DateOfBirth = Decrypt(user.DateOfBirth); // Decrypt DateOfBirth
