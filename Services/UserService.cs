@@ -216,7 +216,13 @@ namespace OrderManagement.Services
                 return age > 40;
             }
             return false;
-        }
 
+            const value = 2;
+
+            if (k % value == 0)
+            {
+                return Ok();
+            }
+        }
     }
 }
