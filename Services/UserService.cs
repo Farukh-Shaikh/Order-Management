@@ -217,12 +217,6 @@ namespace OrderManagement.Services
             }
             return false;
 
-            const value = 2;
-
-            if (k % value == 0)
-            {
-                return Ok();
-            }
         }
     }
 }
