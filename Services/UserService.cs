@@ -218,43 +218,5 @@ namespace OrderManagement.Services
             return false;
         }
 
-        public void HandleDataBreach(string breachDetails)
-        {
-            _logger.LogError($"Data breach detected: {breachDetails}");
-            NotifyAuthorities(breachDetails);
-            NotifyUsers();
-        }
-
-        private void NotifyAuthorities(string breachDetails)
-        {
-            var authorityEmail = "authority@example.com";
-            var mailMessage = new MailMessage("no-reply@example.com", authorityEmail)
-            {
-                Subject = "Data Breach Notification",
-                Body = $"A data breach has been detected:\n\n{breachDetails}"
-            };
-            _smtpClient.Send(mailMessage);
-        }
-
-        private void NotifyUsers()
-        {
-            var users = _context.Users.ToList();
-            foreach (var user in users)
-            {
-                var userEmail = _protector.Unprotect(user.Email);
-                var mailMessage = new MailMessage("no-reply@example.com", userEmail)
-                {
-                    Subject = "Important: Data Breach Notification",
-                    Body = "Dear user,\n\nWe regret to inform you that a data breach has occurred. Please take necessary precautions to protect your personal information."
-                };
-                _smtpClient.Send(mailMessage);
-            }
-            const value = 2;
-
-            if (k % value == 0)
-            {
-                return Ok();
-            }
-        }
     }
 }
