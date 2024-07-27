@@ -27,6 +27,7 @@ builder.Services.AddLogging();
 
 
 builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddDbContext<CardholderDbContext>();
 
 
 

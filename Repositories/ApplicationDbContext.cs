@@ -11,9 +11,23 @@ namespace OrderManagement.Repositories
         {
         }
 
+
+
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
         }
     }
+
+    public class CardholderDbContext : DbContext
+    {
+        public CardholderDbContext(DbContextOptions<CardholderDbContext> options)
+            : base(options)
+        {
+        }
+
+        // Define DbSets for cardholder data
+    }
+
 }
